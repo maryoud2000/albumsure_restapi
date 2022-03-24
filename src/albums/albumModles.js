@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
 const albumSchema = new mongoose.Schema({
-    username: {
+    albumName: {
       type: String,
+    },
+    artistName: {
+        type: String,
     },
   });
   
