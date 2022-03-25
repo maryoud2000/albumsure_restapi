@@ -3,9 +3,9 @@ const User = require("./userModels");
 
 exports.addUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    const token = await jwt.sign({ _id: user._id }, process.env.SECRET);
-    res.status(200).send({ user: user.username, token });
+    const newUser = await User.create(req.body);
+    const token = await jwt.sign({ _id: newUser._id }, process.env.SECRET);
+    res.status(200).send({ user: newUser.username, token });
   } catch (error) {
     console.log(error);
     res.status(500).send({ err: error.message });
@@ -25,11 +25,11 @@ exports.login = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const updateCheck = await User.updateOne(
-      { _id: req.user._id },
-      req.body.updateObj
+      { username: req.user.username },
+      { pass: req.body.pass }
     );
     if (updateCheck.modifiedCount > 0) {
-      res.status(200).send({ msg: "Success" });
+      res.status(200).send({ msg: "Successfully updated user" });
     } else {
       throw new Error("Nothing updated");
     }
